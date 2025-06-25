@@ -6,6 +6,9 @@ use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KadarAirController;
+use App\Http\Controllers\KecepatanAirController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -25,41 +28,21 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [HomeController::class, 'home']);
-	Route::get('dashboard', function () {
-		return view('dashboard');
-	})->name('dashboard');
 
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
 
 	Route::get('profile', function () {
 		return view('profile');
 	})->name('profile');
 
-	Route::get('rtl', function () {
-		return view('rtl');
-	})->name('rtl');
+    Route::resource('users', UserController::class);
+    Route::put('/users/{id}/change-password', [UserController::class, 'changePassword'])->name('users.change-password');
 
-	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
-	})->name('user-management');
-
-	Route::get('tables', function () {
-		return view('tables');
-	})->name('tables');
-
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
-	})->name('virtual-reality');
-
-    Route::get('static-sign-in', function () {
-		return view('static-sign-in');
-	})->name('sign-in');
-
-    Route::get('static-sign-up', function () {
-		return view('static-sign-up');
-	})->name('sign-up');
+    Route::get('/KadarAir', [KadarAirController::class, 'index'])->name('kadarair');
+    Route::get('/KadarAir/Download', [KadarAirController::class, 'download'])->name('kadar.download');
+    Route::get('/KecepatanAir', [KecepatanAirController::class, 'index'])->name('kecepatanair');
+    Route::get('/Kecepatan/Download', [KecepatanAirController::class, 'download'])->name('kecepatan.download');
+    Route::get('/api/chart-data', [HomeController::class, 'getChartData']);
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
 	Route::get('/user-profile', [InfoUserController::class, 'create']);

@@ -353,7 +353,7 @@ database
 |       |       fixed-plugins.blade.php
 |       |      
 |       +---laravel-example
-|       |        user-management.blade.php
+|       |        users.blade.php
 |       |        user-profile.blade.php
 |       |      
 |       +---layouts
