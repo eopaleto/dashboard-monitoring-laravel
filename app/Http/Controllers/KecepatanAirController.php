@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KadarAir;
+use App\Models\KetinggianAir;
 use Illuminate\Http\Request;
 use App\Models\KecepatanAir;
 use Carbon\Carbon;

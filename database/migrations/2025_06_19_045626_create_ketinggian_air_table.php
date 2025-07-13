@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('kadar_air', function (Blueprint $table) {
+        Schema::create('ketinggian_air', function (Blueprint $table) {
             $table->id();
             $table->float('nilai');
             $table->string('keterangan', 255)->nullable();
@@ -17,6 +17,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('kadar_air');
+        Schema::dropIfExists('ketinggian_air');
     }
 };

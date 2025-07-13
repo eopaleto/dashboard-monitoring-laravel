@@ -1,49 +1,49 @@
-let chartKadar, chartPieKadar, chartKecepatan, chartPieKecepatan;
+let chartKetinggian, chartPieKetinggian, chartKecepatan, chartPieKecepatan;
 
 document.addEventListener("DOMContentLoaded", function () {
-    initChartKadar();
+    initChartKetinggian();
     initChartKecepatan();
 });
 
-function initChartKadar(filter = '60') {
-    fetch(`/api/chart-data?kadar=${filter}`)
+function initChartKetinggian(filter = '15') {
+    fetch(`/api/chart-data?ketinggian=${filter}`)
         .then(res => res.json())
         .then(data => {
-            const ctx = document.getElementById("chart-kadar").getContext("2d");
-            const pieCtx = document.getElementById("chartpie-kadar").getContext("2d");
+            const ctx = document.getElementById("chart-ketinggian").getContext("2d");
+            const pieCtx = document.getElementById("chartpie-ketinggian").getContext("2d");
 
-            if (chartPieKadar) chartPieKadar.destroy();
-            if (chartKadar) chartKadar.destroy();
+            if (chartPieKetinggian) chartPieKetinggian.destroy();
+            if (chartKetinggian) chartKetinggian.destroy();
 
             const gradient = ctx.createLinearGradient(0, 230, 0, 50);
             gradient.addColorStop(1, 'rgba(203,12,159,0.2)');
             gradient.addColorStop(0.2, 'rgba(72,72,176,0.0)');
             gradient.addColorStop(0, 'rgba(203,12,159,0)');
 
-            chartKadar = new Chart(ctx, {
+            chartKetinggian = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: data.kadar.labels,
+                    labels: data.ketinggian.labels,
                     datasets: [{
-                        data: data.kadar.values,
+                        data: data.ketinggian.values,
                         tension: 0.4,
                         borderWidth: 3,
                         borderColor: "#cb0c9f",
                         backgroundColor: gradient,
                         fill: true,
                         pointRadius: 0,
-                        tooltipData: data.kadar.tooltip
+                        tooltipData: data.ketinggian.tooltip
 
                     }]
                 },
                 options: chartOptions()
             });
-            chartPieKadar = new Chart(pieCtx, {
+            chartPieKetinggian = new Chart(pieCtx, {
                 type: "doughnut",
                 data: {
-                    labels: Object.keys(data.kadar.pie),
+                    labels: Object.keys(data.ketinggian.pie),
                     datasets: [{
-                        data: Object.values(data.kadar.pie),
+                        data: Object.values(data.ketinggian.pie),
                         backgroundColor: ['#cb0c9f', '#e55ec6', '#f79ae0', '#fad0ec'],
                         borderWidth: 1
                     }]
@@ -79,7 +79,7 @@ function initChartKadar(filter = '60') {
         });
 }
 
-function initChartKecepatan(filter = '60') {
+function initChartKecepatan(filter = '15') {
     fetch(`/api/chart-data?kecepatan=${filter}`)
         .then(res => res.json())
         .then(data => {
@@ -117,7 +117,7 @@ function initChartKecepatan(filter = '60') {
                     labels: Object.keys(data.kecepatan.pie),
                     datasets: [{
                         data: Object.values(data.kecepatan.pie),
-                        backgroundColor: ['#f9a825', '#fdd835', '#fff176'], // sesuai kecepatan line chart
+                        backgroundColor: ['#f9a825', '#fdd835', '#fff176'],
                         borderWidth: 1
                     }]
                 },
@@ -152,8 +152,8 @@ function initChartKecepatan(filter = '60') {
         });
 }
 
-function filterKadar(waktu) {
-    initChartKadar(waktu);
+function filterKetinggian(waktu) {
+    initChartKetinggian(waktu);
 }
 
 function filterKecepatan(waktu) {
@@ -208,6 +208,7 @@ function chartOptions() {
                 ticks: {
                     display: true,
                     color: '#b2b9bf',
+                    maxTicksLimit: 12 ,
                     padding: 20,
                     font: {
                         size: 11,

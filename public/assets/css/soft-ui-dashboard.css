@@ -4193,9 +4193,10 @@ textarea.form-control-lg {
   background-color: #e9ecef;
 }
 .dropdown-item.active, .dropdown-item:active {
-  color: #67748e;
-  text-decoration: none;
-  background-color: transparent;
+    background-color: #ad4795 !important;
+    color: white !important;
+    text-decoration: none;
+
 }
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #6c757d;

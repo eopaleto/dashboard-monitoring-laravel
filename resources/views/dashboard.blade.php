@@ -2,113 +2,168 @@
 
 @section('content')
 
-  <div class="row">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Pengguna</p>
-                <h5 class="font-weight-bolder mb-0">
-                  {{ $jumlahUser }}
-                </h5>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="fas fa-users text-lg position-relative top-50 translate-middle-y opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Admin</p>
-                <h5 class="font-weight-bolder mb-0">
-                  {{ $jumlahAdmin }}
-                </h5>
-              </div>
-            </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-                <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 1</p>
-                    <span class="badge bg-danger text-white mb-0 mt-1">
-                        <i class="fas fa-plug-circle-xmark me-2"></i>Offline
-                    </span>
+<div class="row">
+    {{-- Khusus untuk Admin: Tampilkan semua dengan layout normal --}}
+    @if(Auth::user()->role == 'admin')
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Pengguna</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{ $jumlahUser }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fas fa-users text-lg position-relative top-50 translate-middle-y opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="fas fa-microchip text-center position-relative top-50 translate-middle-y text-lg opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-8">
-                <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 2</p>
-                    <span class="badge bg-success text-white mb-0 mt-1">
-                        <i class="fa-solid fa-earth-americas me-2"></i>Online
-                    </span>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Admin</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{ $jumlahAdmin }}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="fas fa-satellite-dish text-lg position-relative top-50 translate-middle-y opacity-10" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
+
+        {{-- Status Sensor 1 --}}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 1</p>
+                                <span class="badge bg-danger text-white mb-0 mt-1">
+                                    <i class="fas fa-plug-circle-xmark me-2"></i>Offline
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fas fa-microchip text-center position-relative top-50 translate-middle-y text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Status Sensor 2 --}}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 2</p>
+                                <span class="badge bg-success text-white mb-0 mt-1">
+                                    <i class="fa-solid fa-earth-americas me-2"></i>Online
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fas fa-satellite-dish text-lg position-relative top-50 translate-middle-y opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{-- Untuk Role selain Admin (misal: pengguna) --}}
+    @else
+        <div class="col-md-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 1</p>
+                                <span class="badge bg-danger text-white mb-0 mt-1">
+                                    <i class="fas fa-plug-circle-xmark me-2"></i>Offline
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fas fa-microchip text-center position-relative top-50 translate-middle-y text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Status Sensor 2</p>
+                                <span class="badge bg-success text-white mb-0 mt-1">
+                                    <i class="fa-solid fa-earth-americas me-2"></i>Online
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fas fa-satellite-dish text-lg position-relative top-50 translate-middle-y opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
+
   <div class="row mt-4">
     <div class="col-lg-8">
       <div class="card h-100 z-index-2">
         <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-          <h6 class="text-bolder">Grafik Kadar Air</h6>
+          <h6 class="text-bolder">Grafik Ketinggian Air</h6>
             <div class="dropdown">
                 <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-filter text-dark text-sm me-2"></i> Filter
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownFilter">
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKadar('All')">Semua Data</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKetinggian('All')">Semua Data</a></li>
                     <li><hr class="dropdown-divider opacity-2"></li>
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKadar('15')">15 Menit</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKadar('30')">30 Menit</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKadar('60')">1 Jam</a></li>
+                    <li><a class="dropdown-item active" href="#" onclick="event.preventDefault(); filterKetinggian('15')">15 Menit</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKetinggian('30')">30 Menit</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKetinggian('60')">1 Jam</a></li>
                 </ul>
             </div>
         </div>
         <div class="card-body p-3">
           <div class="chart">
-            <canvas id="chart-kadar" class="chart-canvas" height="300"></canvas>
+            <canvas id="chart-ketinggian" class="chart-canvas" height="400"></canvas>
           </div>
         </div>
       </div>
@@ -119,7 +174,7 @@
                 <h6 class="mb-0 text-bolder">Kondisi</h6>
             </div>
             <div class="card-body">
-                <canvas id="chartpie-kadar" class="chart-canvas" height="300"></canvas>
+                <canvas id="chartpie-ketinggian" class="chart-canvas" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -136,7 +191,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownFilter">
                     <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKecepatan('All')">Semua Data</a></li>
                     <li><hr class="dropdown-divider opacity-2"></li>
-                    <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKecepatan('15')">15 Menit</a></li>
+                    <li><a class="dropdown-item active" href="#" onclick="event.preventDefault(); filterKecepatan('15')">15 Menit</a></li>
                     <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKecepatan('30')">30 Menit</a></li>
                     <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); filterKecepatan('60')">1 Jam</a></li>
                 </ul>
@@ -144,7 +199,7 @@
         </div>
         <div class="card-body p-3">
           <div class="chart">
-            <canvas id="chart-kecepatan" class="chart-canvas" height="300"></canvas>
+            <canvas id="chart-kecepatan" class="chart-canvas" height="400"></canvas>
           </div>
         </div>
       </div>
@@ -155,7 +210,7 @@
                 <h6 class="mb-0 text-bolder">Kondisi</h6>
             </div>
             <div class="card-body">
-                <canvas id="chartpie-kecepatan" class="chart-canvas" height="300"></canvas>
+                <canvas id="chartpie-kecepatan" class="chart-canvas" height="400"></canvas>
             </div>
         </div>
     </div>

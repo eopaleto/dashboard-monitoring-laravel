@@ -23,19 +23,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($data as $kadarair)
+                    @foreach ($data as $Ketinggianair)
                         <tr>
                             <td class="text-center px-2 text-secondary text-xxs">
                                 <p class="text-xs font-weight-bold mb-0">{{ $loop->iteration }}</p>
                             </td>
                             <td class="text-center align-middle">
-                                <p class="text-xs font-weight-bold mb-0">{{ $kadarair->formatted_waktu}}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $Ketinggianair->formatted_waktu}}</p>
                             </td>
                             <td class="text-center align-middle">
-                                <p class="text-xs font-weight-bold mb-0">{{ $kadarair->nilai}}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $Ketinggianair->nilai}}</p>
                             </td>
                             @php
-                                $color = match($kadarair->keterangan) {
+                                $color = match($Ketinggianair->keterangan) {
                                     'Sangat Keruh'  => 'text-danger',
                                     'Keruh'         => 'text-warning',
                                     'Jernih'        => 'text-success',
@@ -44,7 +44,7 @@
                                 };
                             @endphp
                             <td class="text-center align-middle">
-                                <p class="text-xs font-weight-bold mb-0 {{ $color }}">{{ $kadarair->keterangan}}</p>
+                                <p class="text-xs font-weight-bold mb-0 {{ $color }}">{{ $Ketinggianair->keterangan}}</p>
                             </td>
                         </tr>
                     @endforeach
@@ -59,7 +59,7 @@
   </main>
   @endsection
 
-@include('components.modal-download', ['action' => route('kadar.download')])
+@include('components.modal-download', ['action' => route('ketinggian.download')])
 @push('scripts')
-  <script src="{{ asset('assets/js/kadar.js')}}"></script>
+  <script src="{{ asset('assets/js/ketinggian.js')}}"></script>
 @endpush

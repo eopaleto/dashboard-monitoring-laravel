@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\KadarAir;
+use App\Models\KetinggianAir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
 
-class KadarAirController extends Controller
+class KetinggianAirController extends Controller
 {
     public function index()
     {
-        $data = KadarAir::select('nilai', 'waktu', 'keterangan')->get();
+        $data = KetinggianAir::select('nilai', 'waktu', 'keterangan')->get();
 
         $data->transform(function ($item) {
             $item->formatted_waktu = Carbon::parse($item->waktu)->translatedFormat('d F Y H:i:s');
             return $item;
         });
 
-        return view('kadar', compact('data'));
+        return view('ketinggian', compact('data'));
     }
 
     public function download(Request $request)
@@ -31,9 +31,9 @@ class KadarAirController extends Controller
         $start = Carbon::parse($request->start_date)->startOfDay();
         $end = Carbon::parse($request->end_date)->endOfDay();
 
-        $data = KadarAir::whereBetween('waktu', [$start, $end])->get();
+        $data = KetinggianAir::whereBetween('waktu', [$start, $end])->get();
 
-        $filename = 'KadarAir_' . now()->format('dmY_His') . '.csv';
+        $filename = 'KetinggianAir_' . now()->format('dmY_His') . '.csv';
 
         $headers = [
             "Content-type"        => "text/csv",

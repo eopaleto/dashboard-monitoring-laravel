@@ -10,33 +10,43 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users= User::all();
+        $users = User::all();
         return view('users', compact('users'));
     }
 
-    public function changePassword(Request $request, $id)
+    public function update(Request $request, $id)
     {
         try {
-            $request->validate([
-                'password' => 'required|string|min:6|confirmed',
-                'password_confirmation' => 'required|string|min:6',
-            ]);
+            $rules = [
+                'name' => 'required|string|max:255',
+                'email' => "required|email|unique:users,email,$id",
+                'role' => 'required|string',
+            ];
 
-            $user = User::findOrFail($id);
-            $user->update([
-                'password' => bcrypt($request->password),
-            ]);
-
-            return redirect()->route('users.index')->with('success', 'Password berhasil diubah!');
-        } catch (ValidationException $e) {
-            if ($e->validator->errors()->has(key: 'password')) {
-                return redirect()->route('users.index')
-                    ->with('error', 'Konfirmasi password tidak cocok atau password terlalu pendek.');
+            if ($request->filled('password')) {
+                $rules['password'] = 'required|string|min:6|confirmed';
             }
 
-            return redirect()->route('users.index')->with('error', 'Input tidak valid.');
+            $validated = $request->validate($rules);
+
+            $user = User::findOrFail($id);
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->role = $validated['role'];
+
+            if ($request->filled('password')) {
+                $user->password = bcrypt($validated['password']);
+            }
+
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'User berhasil diperbarui!');
+        } catch (ValidationException $e) {
+            return redirect()->route('users.index')
+                ->with('error', 'Konfirmasi password tidak cocok atau data tidak valid.');
         } catch (\Exception $e) {
-            return redirect()->route('users.index')->with('error', 'Gagal mengubah password. Silakan coba lagi.');
+            return redirect()->route('users.index')
+                ->with('error', 'Terjadi kesalahan saat memperbarui user.');
         }
     }
 

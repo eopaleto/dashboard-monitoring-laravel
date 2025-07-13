@@ -65,26 +65,26 @@
       </li>
     @endif
       <li class="nav-item">
-        <a class="nav-link collapsed {{ Request::is('KadarAir') || Request::is('KecepatanAir') ? 'active' : '' }}"
+        <a class="nav-link collapsed {{ Request::is('KetinggianAir') || Request::is('KecepatanAir') ? 'active' : '' }}"
         data-bs-toggle="collapse"
         href="#submenu-laporan"
         role="button"
-        aria-expanded="{{ Request::is('KadarAir') || Request::is('KecepatanAir') ? 'true' : 'false' }}"
+        aria-expanded="{{ Request::is('KetinggianAir') || Request::is('KecepatanAir') ? 'true' : 'false' }}"
         aria-controls="submenu-laporan">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="fas fa-microchip text-sm opacity-10 {{ Request::is('KadarAir') || Request::is('KecepatanAir') ? 'text-white' : 'text-dark' }}"></i>
+                <i class="fas fa-microchip text-sm opacity-10 {{ Request::is('KetinggianAir') || Request::is('KecepatanAir') ? 'text-white' : 'text-dark' }}"></i>
             </div>
             <span class="nav-link-text ms-1">Data Sensor</span>
         </a>
 
-        <div class="collapse ps-2 {{ Request::is('KadarAir') || Request::is('KecepatanAir') ? 'show' : '' }}" id="submenu-laporan">
+        <div class="collapse ps-2 {{ Request::is('KetinggianAir') || Request::is(patterns: 'KecepatanAir') ? 'show' : '' }}" id="submenu-laporan">
             <ul class="nav ms-3">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center {{ Request::is('KadarAir') ? 'active' : '' }}" href="{{ url('KadarAir') }}">
+                    <a class="nav-link d-flex align-items-center {{ Request::is('KetinggianAir') ? 'active' : '' }}" href="{{ url('KetinggianAir') }}">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fas fa-tint text-sm opacity-10 {{ Request::is(patterns: 'KadarAir') ? 'text-white' : 'text-dark' }}"></i>
+                            <i class="fas fa-tint text-sm opacity-10 {{ Request::is(patterns: 'KetinggianAir') ? 'text-white' : 'text-dark' }}"></i>
                         </div>
-                        <span class="nav-link-text ms-1">Data Kadar Air</span>
+                        <span class="nav-link-text ms-1">Data Ketinggian Air</span>
                     </a>
                 </li>
                 <li class="nav-item">
