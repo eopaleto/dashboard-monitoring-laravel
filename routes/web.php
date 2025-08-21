@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\ChangePasswordController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\ResetController;
 use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\KetinggianAirController;
 use App\Http\Controllers\KecepatanAirController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KetinggianAirController;
+use App\Http\Controllers\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,13 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('profile');
 
     Route::resource('users', UserController::class);
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
     Route::get('/KetinggianAir', [KetinggianAirController::class, 'index'])->name('ketinggianair');
     Route::get('/KetinggianAir/Download', [KetinggianAirController::class, 'download'])->name('ketinggian.download');
     Route::get('/KecepatanAir', [KecepatanAirController::class, 'index'])->name('kecepatanair');
     Route::get('/Kecepatan/Download', [KecepatanAirController::class, 'download'])->name('kecepatan.download');
-    Route::get('/api/chart-data', [HomeController::class, 'getChartData']);
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
     Route::get('/user-profile', [InfoUserController::class, 'create']);

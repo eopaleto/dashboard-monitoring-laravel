@@ -11,7 +11,7 @@ class KetinggianAirController extends Controller
 {
     public function index()
     {
-        $data = KetinggianAir::select('nilai', 'waktu', 'keterangan')->get();
+        $data = KetinggianAir::select('ketinggian', 'waktu', 'keterangan')->get();
 
         $data->transform(function ($item) {
             $item->formatted_waktu = Carbon::parse($item->waktu)->translatedFormat('d F Y H:i:s');
@@ -45,13 +45,14 @@ class KetinggianAirController extends Controller
 
         $callback = function() use ($data) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['No', 'Nilai', 'Waktu', 'Keterangan']);
+            fputcsv($file, ['No', 'Ketinggian', 'Waktu', 'Keterangan']);
 
             foreach ($data as $i => $row) {
                 fputcsv($file, [
                     $i + 1,
-                    $row->nilai,
-                    $row->waktu
+                    $row->ketinggian,
+                    $row->waktu,
+                    $row->keterangan
                 ]);
             }
             fclose($file);

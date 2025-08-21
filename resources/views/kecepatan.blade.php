@@ -37,9 +37,9 @@
                       @php
                           $color = match($kecepatanair->keterangan) {
                             'Tidak Ada' => 'text-warning',
-                            'Lambat'    => 'text-danger',
-                            'Normal'    => 'text-success',
-                            'Deras'     => 'text-blue',
+                            'Lambat'    => 'text-success',
+                            'Sedang'    => 'text-warning',
+                            'Cepat'     => 'text-danger',
                             default     => 'text-secondary'
                           };
                       @endphp

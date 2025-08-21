@@ -13,7 +13,7 @@ class KetinggianAir extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nilai',
+        'ketinggian',
         'waktu',
         'keterangan'
     ];

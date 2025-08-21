@@ -32,14 +32,13 @@
                                 <p class="text-xs font-weight-bold mb-0">{{ $Ketinggianair->formatted_waktu}}</p>
                             </td>
                             <td class="text-center align-middle">
-                                <p class="text-xs font-weight-bold mb-0">{{ $Ketinggianair->nilai}}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $Ketinggianair->ketinggian}}</p>
                             </td>
                             @php
                                 $color = match($Ketinggianair->keterangan) {
-                                    'Sangat Keruh'  => 'text-danger',
-                                    'Keruh'         => 'text-warning',
-                                    'Jernih'        => 'text-success',
-                                    'Sangat Jernih' => 'text-blue',
+                                    'Tinggi'        => 'text-danger',
+                                    'Sedang'        => 'text-waning',
+                                    'Rendah'        => 'text-success',
                                     default         => 'text-secondary'
                                 };
                             @endphp

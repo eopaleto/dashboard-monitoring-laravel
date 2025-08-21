@@ -52,8 +52,6 @@ class KecepatanAirController extends Controller
                 fputcsv($file, [
                     $i + 1,
                     $row->kecepatan,
-                    $row->status_aliran,
-                    $row->sensor,
                     $row->keterangan,
                     $row->waktu
                 ]);

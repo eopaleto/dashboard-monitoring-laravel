@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\KetinggianAir;
 use App\Models\KecepatanAir;
+use App\Models\Device;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -19,46 +20,96 @@ class HomeController extends Controller
     {
         $jumlahUser = User::where('role', 'user')->count();
         $jumlahAdmin = User::where('role', 'admin')->count();
+        $sensor1 = Device::where('name', 'SensorKetinggianAir')->first();
+        $sensor2 = Device::where('name', 'SensorKecepatanAir')->first();
 
-        return view('dashboard', compact('jumlahUser', 'jumlahAdmin'));
+        return view('dashboard', compact('jumlahUser', 'jumlahAdmin', 'sensor1', 'sensor2'));
     }
 
-    public function getChartData(Request $request)
+    public function getSensorData(Request $request)
     {
-        $filterKetinggian = $request->query('ketinggian', '60');
-        $filterKecepatan = $request->query('kecepatan', '60');
+        try {
+            $response = [
+                'status' => true,
+                'message' => 'Data berhasil diambil',
+            ];
 
-        $limitKetinggian = $this->getLimitFromFilter($filterKetinggian);
-        $limitKecepatan = $this->getLimitFromFilter($filterKecepatan);
+            if ($request->has('ketinggian')) {
+                $ketinggianParam = $request->query('ketinggian');
+                $ketinggianLimit = $this->getFilterLimit($ketinggianParam);
 
-        $dataKetinggian = KetinggianAir::when($limitKetinggian, fn($q) => $q->latest('waktu')->limit($limitKetinggian))
-                            ->orderBy('waktu', 'asc')->get();
+                $ketinggianQuery = KetinggianAir::query();
 
-        $dataKecepatan = KecepatanAir::when($limitKecepatan, fn($q) => $q->latest('waktu')->limit($limitKecepatan))
-                                    ->orderBy('waktu', 'asc')->get();
+                $ketinggianData = $ketinggianLimit !== null
+                    ? $ketinggianQuery->latest('id')->limit($ketinggianLimit)->get()->sortBy('id')->values()
+                    : $ketinggianQuery->orderBy('id', 'asc')->get();
 
-        return response()->json([
-            'ketinggian' => [
-                'labels' => $dataKetinggian->pluck('waktu')->map(fn($w) => \Carbon\Carbon::parse($w)->format('d F H:i'))->toArray(),
-                'values' => $dataKetinggian->pluck('nilai')->toArray(),
-                'tooltip' => $dataKetinggian->map(fn($d) => "Nilai: {$d->nilai}, Keterangan: {$d->keterangan}")->toArray(),
-                'pie'   => $dataKetinggian->groupBy('keterangan')->map->count()->toArray()
-            ],
-            'kecepatan' => [
-                'labels' => $dataKecepatan->pluck('waktu')->map(fn($w) => \Carbon\Carbon::parse($w)->format('d F H:i'))->toArray(),
-                'values' => $dataKecepatan->pluck('kecepatan')->toArray(),
-                'tooltip' => $dataKecepatan->map(fn($d) => "Nilai: {$d->kecepatan}, Keterangan: {$d->keterangan}")->toArray(),
-                'pie' => $dataKecepatan->groupBy('keterangan')->map->count()->toArray(),
-            ]
-        ]);
+                $response['ketinggian'] = [
+                    'labels'   => $ketinggianData->pluck('waktu')->map(fn($w) => Carbon::parse($w)->format('d F H:i'))->toArray(),
+                    'values'   => $ketinggianData->pluck('ketinggian')->toArray(),
+                    'tooltip'  => $ketinggianData->map(fn($d) => "Nilai: {$d->ketinggian}, Keterangan: {$d->keterangan}")->toArray(),
+                    'pie'      => $ketinggianData->groupBy('keterangan')->map->count()->toArray(),
+                    'last_id'  => $ketinggianData->last()?->id ?? 0,
+                ];
+            }
+
+            if ($request->has('kecepatan')) {
+                $kecepatanParam = $request->query('kecepatan');
+                $kecepatanLimit = $this->getFilterLimit($kecepatanParam);
+
+                $kecepatanQuery = KecepatanAir::query();
+
+                $kecepatanData = $kecepatanLimit !== null
+                    ? $kecepatanQuery->latest('id')->limit($kecepatanLimit)->get()->sortBy('id')->values()
+                    : $kecepatanQuery->orderBy('id', 'asc')->get();
+
+                $response['kecepatan'] = [
+                    'labels'   => $kecepatanData->pluck('waktu')->map(fn($w) => Carbon::parse($w)->format('d F H:i'))->toArray(),
+                    'values'   => $kecepatanData->pluck('kecepatan')->toArray(),
+                    'tooltip'  => $kecepatanData->map(fn($d) => "Nilai: {$d->kecepatan}, Keterangan: {$d->keterangan}")->toArray(),
+                    'pie'      => $kecepatanData->groupBy('keterangan')->map->count()->toArray(),
+                    'last_id'  => $kecepatanData->last()?->id ?? 0,
+                ];
+            }
+
+            if (!$request->has('ketinggian') && !$request->has('kecepatan')) {
+                $defaultLimit = $this->getFilterLimit('15');
+
+                $ketinggianData = KetinggianAir::latest('waktu')->limit($defaultLimit)->orderBy('waktu', 'asc')->get();
+                $kecepatanData  = KecepatanAir::latest('waktu')->limit($defaultLimit)->orderBy('waktu', 'asc')->get();
+
+                $response['ketinggian'] = [
+                    'labels'   => $ketinggianData->pluck('waktu')->map(fn($w) => Carbon::parse($w)->format('d F H:i'))->toArray(),
+                    'values'   => $ketinggianData->pluck('ketinggian')->toArray(),
+                    'tooltip'  => $ketinggianData->map(fn($d) => "Nilai: {$d->ketinggian}, Keterangan: {$d->keterangan}")->toArray(),
+                    'pie'      => $ketinggianData->groupBy('keterangan')->map->count()->toArray(),
+                    'last_id'  => $ketinggianData->last()?->id ?? 0,
+                ];
+
+                $response['kecepatan'] = [
+                    'labels'   => $kecepatanData->pluck('waktu')->map(fn($w) => Carbon::parse($w)->format('d F H:i'))->toArray(),
+                    'values'   => $kecepatanData->pluck('kecepatan')->toArray(),
+                    'tooltip'  => $kecepatanData->map(fn($d) => "Nilai: {$d->kecepatan}, Keterangan: {$d->keterangan}")->toArray(),
+                    'pie'      => $kecepatanData->groupBy('keterangan')->map->count()->toArray(),
+                    'last_id'  => $kecepatanData->last()?->id ?? 0,
+                ];
+            }
+
+            return response()->json($response);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
-    private function getLimitFromFilter($filter)
+    private function getFilterLimit($param)
     {
-        return match ($filter) {
-            '15' => 30,
-            '30' => 60,
-            '60', '1' => 120,
+        return match ($param) {
+            '15' => 15,
+            '30' => 30,
+            '60' => 60,
             'all' => null,
             default => 15
         };
